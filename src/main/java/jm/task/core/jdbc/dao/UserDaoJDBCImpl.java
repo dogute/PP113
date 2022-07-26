@@ -9,13 +9,14 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
     private final Connection connection = Util.getConnection();
+
     public UserDaoJDBCImpl() {
     }
 
     public void createUsersTable() {
         try (Statement statement = connection.createStatement()) {
             connection.setAutoCommit(false);
-            String sqlCommand = """
+            String sqlComm = """
                     create table IF NOT EXISTS users(
                         id BIGINT NOT NULL AUTO_INCREMENT,
                         name varchar(30),
@@ -24,14 +25,9 @@ public class UserDaoJDBCImpl implements UserDao {
                     \t\tPRIMARY KEY (id)
                     );
                     """;
-            statement.executeUpdate(sqlCommand);
+            statement.executeUpdate(sqlComm);
             connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
             e.printStackTrace();
         }
 
@@ -40,14 +36,10 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try (Statement statement = connection.createStatement()) {
             connection.setAutoCommit(false);
-            statement.executeUpdate("DROP table IF EXISTS users");
+            String sqlComm = "DROP table IF EXISTS users";
+            statement.executeUpdate(sqlComm);
             connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
             e.printStackTrace();
         }
 
@@ -55,8 +47,9 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         String sqlComm = "INSERT INTO users(name, lastname, age) value (?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlComm)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlComm)) {
             connection.setAutoCommit(false);
+            String sqlComm = "INSERT INTO users(name, lastname, age) value (?, ?, ?)";
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setInt(3, age);
@@ -80,7 +73,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
@@ -106,7 +99,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 allUsers.add(user);
                 connection.commit();
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
@@ -118,9 +111,9 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        String sqlComm = "DELETE FROM users";
         try (Statement statement = connection.createStatement()) {
             connection.setAutoCommit(false);
+            String sqlComm = "DELETE FROM users";
             statement.executeUpdate(sqlComm);
             connection.commit();
         } catch (SQLException e) {
