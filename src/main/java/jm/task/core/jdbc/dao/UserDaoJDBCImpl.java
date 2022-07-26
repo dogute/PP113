@@ -49,7 +49,6 @@ public class UserDaoJDBCImpl implements UserDao {
         String sqlComm = "INSERT INTO users(name, lastname, age) value (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlComm)) {
             connection.setAutoCommit(false);
-            String sqlComm = "INSERT INTO users(name, lastname, age) value (?, ?, ?)";
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setInt(3, age);
