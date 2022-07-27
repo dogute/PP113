@@ -2,7 +2,6 @@ package jm.task.core.jdbc;
 
 import jm.task.core.jdbc.dao.UserDao;
 import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
 
 import java.sql.SQLException;
@@ -20,11 +19,8 @@ public class Main {
             userDao.createUsersTable();
 
             userDao.saveUser(user1.getName(), user1.getLastName(), user1.getAge());
-            System.out.println("User с именем – " + user1.getName() + " добавлен в базу данных");
             userDao.saveUser(user2.getName(), user2.getLastName(), user2.getAge());
-            System.out.println("User с именем – " + user2.getName() + " добавлен в базу данных");
             userDao.saveUser(user3.getName(), user3.getLastName(), user3.getAge());
-            System.out.println("User с именем – " + user3.getName() + " добавлен в базу данных");
 
 
             for (User user : userDao.getAllUsers()) {

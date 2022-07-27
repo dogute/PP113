@@ -9,6 +9,7 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
     private final Connection connection = Util.getConnection();
+
     public UserDaoJDBCImpl() {
     }
 
@@ -27,14 +28,8 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.executeUpdate(sqlCommand);
             connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
             e.printStackTrace();
         }
-
     }
 
     public void dropUsersTable() {
@@ -43,19 +38,13 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.executeUpdate("DROP table IF EXISTS users");
             connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
             e.printStackTrace();
         }
-
     }
 
     public void saveUser(String name, String lastName, byte age) {
         String sqlComm = "INSERT INTO users(name, lastname, age) value (?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlComm)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlComm)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
@@ -80,7 +69,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
             connection.commit();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
@@ -88,7 +77,6 @@ public class UserDaoJDBCImpl implements UserDao {
             }
             e.printStackTrace();
         }
-
     }
 
     public List<User> getAllUsers() {
@@ -106,7 +94,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 allUsers.add(user);
                 connection.commit();
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException e1) {

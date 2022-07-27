@@ -15,7 +15,7 @@ import java.util.Properties;
 public class Util {
 
     private static final String URL = "jdbc:mysql://localhost:3306/justfortest";
-    private static final String USERNAME = "root1";
+    private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
     private static SessionFactory sessionFactory;
 
@@ -47,9 +47,8 @@ public class Util {
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
                 settings.put(Environment.HBM2DDL_AUTO, "create-drop");
 
-                configuration.setProperties(settings);
 
-                configuration.addAnnotatedClass(User.class);
+                configuration.setProperties(settings).addAnnotatedClass(User.class);
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties())
